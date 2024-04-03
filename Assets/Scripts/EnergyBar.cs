@@ -8,12 +8,12 @@ public class EnergyBar : MonoBehaviour
 
     static readonly private int maxFlapEnergy = 100;
     private int flapEnergy;
-    public int GetEnergy => flapEnergy;
+    public float GetEnergy => energyMeter.value;
 
     private Slider energyMeter;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         flapEnergy = maxFlapEnergy;
         energyMeter = GetComponent<Slider>();
@@ -25,11 +25,35 @@ public class EnergyBar : MonoBehaviour
         
     }
 
-    private void UpdateEnergy(int val)
+    private IEnumerator UpdateEnergy(float val)
     {
-        energyMeter.value = val;
+        // Ends the Loop
+        if (energyMeter.value >= energyMeter.maxValue && val >= energyMeter.maxValue)
+        {
+            yield break;
+        }
+        float t = 0f;
+        float inc = 0.1f;
+        float duration = 1f;
+        float initialVal = energyMeter.value;
+
+
+        while (t < duration)
+        {
+            energyMeter.value = Mathf.Lerp(initialVal, val, t);
+            yield return new WaitForSeconds(inc);
+            t += inc;
+        }
+
+        // Continues to heal
+        yield return EnergyConsumption(-5);
     }
 
+    private IEnumerator RefillEnergy()
+    {
+        yield return new WaitForSeconds(1f);
+        EnergyConsumption(-10);
+    }
 
     public bool EnergyConsumption(int cost)
     {
@@ -37,7 +61,7 @@ public class EnergyBar : MonoBehaviour
         if (flap)
             flapEnergy -= cost;
 
-        UpdateEnergy(flapEnergy);
+        StartCoroutine(UpdateEnergy(flapEnergy));
         return flap;
     }
 

@@ -44,15 +44,22 @@ public class PlayerController : MonoBehaviour
     // The simulated speed of the bird going forward
     // The lower the speed the faster the bird drops
     // Also used to determine where the bird will look
-    [SerializeField] private float virtualSpeed = 100f;
-    private static float maxSpeed = 500f;
+    //[SerializeField] private float _virtualThrust = 100f;
+
+    private static float maxThrust = 500f;
+
+    [SerializeField] private float curSpeed;
+    private static float liftSpeed = 30f;
+    private static float minSpeed = 20f;
+    private static float maxSpeed = 100f;
 
     //[SerializeField] private float glideFactor = 10f;
-    private static float turnAmount = 20f;
+    //private static float turnAmount = 10f;
     private static float rollAmount = 45f;
     #endregion
     // Control Variables
     private Vector2 playerInput;
+    public Vector2 PlayerInput => playerInput;
     //private Vector3 birdVelocity;
 
     private void OnEnable()
@@ -73,8 +80,9 @@ public class PlayerController : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        curSpeed = minSpeed;
         rb = GetComponent<Rigidbody>();
         //anim = GetComponent<Animator>();
     }
@@ -88,8 +96,8 @@ public class PlayerController : MonoBehaviour
             if ((int)BirdState < (int)WingStates.Flap)
             {
                 BirdState = WingStates.Flap;
+                anim.SetBool("Flap", true);
             }
-            
         }
         else
         {
@@ -102,11 +110,13 @@ public class PlayerController : MonoBehaviour
     {
         BirdMovement();
         BirdRotation();
+        //BirdVelocity();
+        anim.SetBool("Climbing", rb.velocity.y > -1.0f);
     }
 
     private void BirdMovement()
     {
-        Vector2 _birdMove = Vector2.zero;
+        float birdlift = 0f;
 
         switch (BirdState)
         {
@@ -117,10 +127,14 @@ public class PlayerController : MonoBehaviour
                         Debug.Log("Flap!");
                         // Increase the height of the bird
                         // Animator will play the bird flap
-                        _birdMove.y += heightGain;
-                        virtualSpeed -= 2f;
+                        birdlift += heightGain;
+                        curSpeed -= 2f;
                     }
 
+                    if (anim.GetBool("Flap"))
+                    {
+                        anim.SetBool("Flap", false);
+                    }
                     BirdState = WingStates.Flapped;
                     break;
                 }
@@ -129,14 +143,14 @@ public class PlayerController : MonoBehaviour
                     // Keep the height of the bird with gravity having some influence
                     // Animator will transition to a state with the wings spread out
 
-                    _birdMove.y += GlideBehaviour();
+                    birdlift += GlideBehaviour();
 
                     break;
                 }
             case WingStates.Resting:
                 {
                     // Close the bird wings and start accelerating the drop
-                    virtualSpeed = Mathf.Clamp(virtualSpeed -0.1f,0f, maxSpeed);
+                    curSpeed -= 0.1f;
 
                     break;
                 }
@@ -146,8 +160,9 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
         }
-        
-        rb.AddForce(new Vector3(_birdMove.x, _birdMove.y, 0f));
+        Debug.Log(birdlift);
+        curSpeed = Mathf.Clamp(curSpeed, minSpeed, maxSpeed);
+        rb.AddForce(new Vector3(0f, birdlift, 0f));
     }
 
     private void BirdRotation()
@@ -157,25 +172,62 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(targetAngle);
         */
         float pitchAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.x, Mathf.Clamp(-rb.velocity.y, -70, 80), Time.deltaTime * rotationSpeed);
-        float yawAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, Mathf.Clamp(playerInput.x * turnAmount, -turnAmount, turnAmount), Time.deltaTime * rotationSpeed);
+        //float yawAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, Mathf.Clamp(playerInput.x * turnAmount, -turnAmount, turnAmount), Time.deltaTime * rotationSpeed);
         float rollAngle = Mathf.LerpAngle(-transform.rotation.eulerAngles.z, Mathf.Clamp(playerInput.x * rollAmount, -rollAmount, rollAmount), Time.deltaTime * rotationSpeed * 0.5f);
         transform.rotation = Quaternion.Euler(pitchAngle, 0f, -rollAngle);
 
     }
 
+    public Vector2 BirdVelocity()
+    {
+        Vector2 magnitude = new Vector2(playerInput.x, curSpeed/maxSpeed);
+        return magnitude;
+    }
 
     private float GlideBehaviour()
     {
-        float lift = 0.0f;
+        float lift = -0f;
 
+        curSpeed = Mathf.Clamp(curSpeed - rb.velocity.y,minSpeed,maxSpeed);
+
+        float delta = (curSpeed / maxSpeed);
+
+        lift = glideCurve.Evaluate(delta);
+
+        lift *= heightGain;
+
+        //Debug.Log("Height gain: " + lift);
+        if (rb.velocity.y > -1.4f)
+        {
+            curSpeed -= 0.4f;
+            lift *= delta;
+            //Debug.Log("After Drag: " + lift);
+        }
         
 
 
-        
-        
+        /*
+        if (rb.velocity.y < -1f)
+        {
+            curSpeed += 0.2f;
+        }
+            
 
-        virtualSpeed = Mathf.Clamp(virtualSpeed - rb.velocity.y,0,maxSpeed);
-        float delta = (virtualSpeed / maxSpeed) * 0.2f;
+        if (curSpeed > liftSpeed)
+        {
+            lift = heightGain * (curSpeed / maxSpeed);
+            curSpeed -= 0.1f; //* (curSpeed / maxSpeed);
+        }
+
+        if (rb.velocity.y > 1f)
+        {
+            curSpeed -= 0.1f ;
+        }
+        */
+
+        /*
+       _virtualThrust -= rb.velocity.y;
+        float delta = (_virtualThrust / maxThrust);
 
         lift = glideCurve.Evaluate(delta);
 
@@ -184,10 +236,12 @@ public class PlayerController : MonoBehaviour
         
         if (rb.velocity.y > -1.0f)
         {
-            virtualSpeed -= 0.4f;
+            _virtualThrust -= 0.4f;
             lift *= 0.8f;
         }
-        
+        */
+
+
 
 
         /*
@@ -215,7 +269,7 @@ public class PlayerController : MonoBehaviour
 
         }
         */
-        
+
         return lift;
     }
 
