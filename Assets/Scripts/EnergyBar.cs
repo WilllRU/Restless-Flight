@@ -27,6 +27,8 @@ public class EnergyBar : MonoBehaviour
 
     private IEnumerator UpdateEnergy(float val)
     {
+        
+
         // Ends the Loop
         if (energyMeter.value >= energyMeter.maxValue && val >= energyMeter.maxValue)
         {
@@ -40,7 +42,7 @@ public class EnergyBar : MonoBehaviour
 
         while (t < duration)
         {
-            energyMeter.value = Mathf.Lerp(initialVal, val, t);
+            energyMeter.value = Mathf.Lerp(energyMeter.value, val, t);
             yield return new WaitForSeconds(inc);
             t += inc;
         }
