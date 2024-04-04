@@ -38,8 +38,9 @@ public class PlayerController : MonoBehaviour
         }
     }
     private float rotationSpeed = 5.0f;
-
-    [SerializeField] private float heightGain = 10.0f;
+    [SerializeField] private float heightGain = 200.0f;
+    private float flapForce = 300f;
+    private bool boost = false;
 
     // The simulated speed of the bird going forward
     // The lower the speed the faster the bird drops
@@ -48,13 +49,14 @@ public class PlayerController : MonoBehaviour
 
     private static float maxThrust = 500f;
 
-    [SerializeField] private float curSpeed;
+    [SerializeField] private float curLift = 0f;
+    [SerializeField] private float turnForce = 0f;
+    [SerializeField] private float curSpeed = 0f;
     private static float liftSpeed = 30f;
     private static float minSpeed = 20f;
     private static float maxSpeed = 100f;
-
     //[SerializeField] private float glideFactor = 10f;
-    //private static float turnAmount = 10f;
+    private static float turnAmount = 40f;
     private static float rollAmount = 45f;
     #endregion
     // Control Variables
@@ -122,12 +124,12 @@ public class PlayerController : MonoBehaviour
         {
             case WingStates.Flap:
                 {
-                    if (energy.EnergyConsumption(10))
+                    if (energy.EnergyConsumption(15))
                     {
                         Debug.Log("Flap!");
                         // Increase the height of the bird
                         // Animator will play the bird flap
-                        birdlift += heightGain;
+                        birdlift += flapForce;
                         curSpeed -= 2f;
                     }
 
@@ -144,13 +146,12 @@ public class PlayerController : MonoBehaviour
                     // Animator will transition to a state with the wings spread out
 
                     birdlift += GlideBehaviour();
-
                     break;
                 }
             case WingStates.Resting:
                 {
                     // Close the bird wings and start accelerating the drop
-                    curSpeed -= 0.1f;
+                    
 
                     break;
                 }
@@ -160,9 +161,30 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
         }
-        Debug.Log(birdlift);
-        curSpeed = Mathf.Clamp(curSpeed, minSpeed, maxSpeed);
+        curSpeed -= 0.2f;
+
+        //Debug.Log(birdlift);
+        if (boost)
+            curSpeed = Mathf.Clamp(curSpeed, minSpeed, maxSpeed * 5);
+        else
+            curSpeed = Mathf.Clamp(curSpeed, minSpeed, maxSpeed);
+
+        float birdDir = playerInput.x * turnAmount;
+
+        turnForce = Mathf.Lerp(turnForce, birdDir,Time.deltaTime);
+        //turnForce = Mathf.Clamp(turnForce, -turnAmount, turnAmount);
+
+
         rb.AddForce(new Vector3(0f, birdlift, 0f));
+    }
+
+    // Call this when you want to give the bird a boost
+    public IEnumerator FlightBoost(float appliedBoost = 100f)
+    {
+        boost = true;
+        curSpeed += appliedBoost;
+        yield return new WaitForSeconds(5f);
+        boost = false;
     }
 
     private void BirdRotation()
@@ -173,102 +195,39 @@ public class PlayerController : MonoBehaviour
         */
         float pitchAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.x, Mathf.Clamp(-rb.velocity.y, -70, 80), Time.deltaTime * rotationSpeed);
         //float yawAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, Mathf.Clamp(playerInput.x * turnAmount, -turnAmount, turnAmount), Time.deltaTime * rotationSpeed);
-        float rollAngle = Mathf.LerpAngle(-transform.rotation.eulerAngles.z, Mathf.Clamp(playerInput.x * rollAmount, -rollAmount, rollAmount), Time.deltaTime * rotationSpeed * 0.5f);
+        float rollAngle = Mathf.LerpAngle(-transform.rotation.eulerAngles.z, Mathf.Clamp(turnForce, -rollAmount, rollAmount), Time.deltaTime * rotationSpeed * 0.5f);
         transform.rotation = Quaternion.Euler(pitchAngle, 0f, -rollAngle);
 
     }
 
-    public Vector2 BirdVelocity()
+    public Vector2 BirdVector()
     {
-        Vector2 magnitude = new Vector2(playerInput.x, curSpeed/maxSpeed);
-        return magnitude;
+        Vector2 velocity = new Vector2(turnForce/(turnAmount * 2f), (curSpeed/(maxSpeed * 2f)));
+        //Debug.Log(velocity);
+        return velocity;
     }
+
+    public float SpeedMagnitude()
+    {
+        return (curSpeed / maxSpeed) * 0.1f;
+    }
+
 
     private float GlideBehaviour()
     {
-        float lift = -0f;
+        float lift = 0f;
+        float inc = 0.01f;
 
-        curSpeed = Mathf.Clamp(curSpeed - rb.velocity.y,minSpeed,maxSpeed);
+        curSpeed -= rb.velocity.y * 0.1f;
 
-        float delta = (curSpeed / maxSpeed);
+        float liftScale = (curSpeed - liftSpeed) * inc;
 
-        lift = glideCurve.Evaluate(delta);
 
-        lift *= heightGain;
-
-        //Debug.Log("Height gain: " + lift);
-        if (rb.velocity.y > -1.4f)
+        if (liftScale > 0f)
         {
-            curSpeed -= 0.4f;
-            lift *= delta;
-            //Debug.Log("After Drag: " + lift);
-        }
-        
-
-
-        /*
-        if (rb.velocity.y < -1f)
-        {
-            curSpeed += 0.2f;
-        }
-            
-
-        if (curSpeed > liftSpeed)
-        {
-            lift = heightGain * (curSpeed / maxSpeed);
-            curSpeed -= 0.1f; //* (curSpeed / maxSpeed);
+            lift = heightGain * liftScale;
         }
 
-        if (rb.velocity.y > 1f)
-        {
-            curSpeed -= 0.1f ;
-        }
-        */
-
-        /*
-       _virtualThrust -= rb.velocity.y;
-        float delta = (_virtualThrust / maxThrust);
-
-        lift = glideCurve.Evaluate(delta);
-
-        lift *= heightGain;
-
-        
-        if (rb.velocity.y > -1.0f)
-        {
-            _virtualThrust -= 0.4f;
-            lift *= 0.8f;
-        }
-        */
-
-
-
-
-        /*
-        if (rb.velocity.y < -4.8f)
-        {
-            virtualSpeed += 20f;
-            lift += 50f;
-        }
-        if (virtualSpeed > 50f && rb.velocity.y < 4.8f)
-        {
-            lift += 2f;
-            virtualSpeed -= 3f;
-        }
-        else
-        {
-            if (virtualSpeed >= 50f)
-            {
-                lift += 5f;
-                virtualSpeed -= 1;
-            }
-            else
-            {
-                lift += 4f;
-            }
-
-        }
-        */
 
         return lift;
     }

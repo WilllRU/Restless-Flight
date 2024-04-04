@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
-    private float curSpeed = 1.0f;
+    private float curSpeed = 0.0f;
     [SerializeField] private MeshRenderer waterRenderer;
-    [SerializeField] private Material waterMaterial;
+    //[SerializeField] private Material waterMaterial;
     [SerializeField] private PlayerController player;
     private Vector2 dir = new Vector2(0f, 0f);
 
@@ -20,15 +20,31 @@ public class WorldManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        waterMaterial = waterRenderer.material;
+        //waterMaterial = waterRenderer.material;
 
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
-        dir = Vector2.Lerp(dir, -player.BirdVelocity().normalized, Time.deltaTime);
-        waterRenderer.material.SetVector("_ScrollDirection", dir);
+        /*
+        dir.x = Mathf.Lerp(dir.x, player.BirdVelocity().x, Time.deltaTime);
+        dir.y = Mathf.Lerp(dir.y, player.BirdVelocity().y, Time.deltaTime);
+        */
+        //dir = Vector2.Lerp(dir, -player.BirdVector(), Time.deltaTime); // -player.BirdVector();
+        dir = -player.BirdVector();
+        curSpeed = Mathf.Lerp(curSpeed, player.SpeedMagnitude(), Time.deltaTime); // player.SpeedMagnitude();
+        //Debug.Log(dir);
+
+        //waterRenderer.material.SetVector("_ScrollDirection", new Vector2(dir.x, dir.y - 0.1f));
+        waterRenderer.material.SetTextureOffset("_FoamTexture", new Vector2(dir.x, (dir.y * curSpeed)));// * Time.realtimeSinceStartup);
+
+        //waterRenderer.material.SetTextureOffset("_FoamTexture", new Vector2(0f, -curSpeed * Time.realtimeSinceStartup));
+        //waterRenderer.material.SetTextureOffset("_FoamTexture", dir); //* Time.realtimeSinceStartup);
+        //waterRenderer.material.SetVector("_ScrollDirection", dir);
+        //waterRenderer.material.SetFloat("_SpeedScale", curSpeed + 0.1f);
+
+
 
     }
 }
