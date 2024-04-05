@@ -6,6 +6,7 @@ public class UnderwaterState : MonoBehaviour
 {
 
     private Collider boxCol;
+    [SerializeField] private BarSystem bar;
 
     private void Awake()
     {
@@ -17,6 +18,11 @@ public class UnderwaterState : MonoBehaviour
         if (other.CompareTag("MainCamera"))
         {
             RenderSettings.fog = true;
+            //ActivateOxygen(true);
+        }
+        if (other.CompareTag("Player"))
+        {
+            bar.OxygenCount(true);
         }
     }
 
@@ -25,6 +31,13 @@ public class UnderwaterState : MonoBehaviour
         if (other.CompareTag("MainCamera"))
         {
             RenderSettings.fog = false;
+            //ActivateOxygen(false);
         }
+        if (other.CompareTag("Player"))
+        {
+            bar.OxygenCount(false);
+        }
+
     }
+
 }

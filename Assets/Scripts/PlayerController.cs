@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private WorldManager man;
-    [SerializeField] private EnergyBar energy;
+    [SerializeField] private BarSystem energy;
 
     [SerializeField] private InputAction playerControls;
     [SerializeField] private Animator anim;
