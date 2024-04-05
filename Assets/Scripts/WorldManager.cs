@@ -32,16 +32,16 @@ public class WorldManager : MonoBehaviour
         dir.y = Mathf.Lerp(dir.y, player.BirdVelocity().y, Time.deltaTime);
         */
         //dir = Vector2.Lerp(dir, -player.BirdVector(), Time.deltaTime); // -player.BirdVector();
-        dir = -player.BirdVector();
-        curSpeed = Mathf.Lerp(curSpeed, player.SpeedMagnitude(), Time.deltaTime); // player.SpeedMagnitude();
+        dir += -player.BirdVector();
+        curSpeed = Mathf.Lerp(curSpeed, player.SpeedMagnitude()* 0.01f, Time.deltaTime); // player.SpeedMagnitude();
         //Debug.Log(dir);
 
         //waterRenderer.material.SetVector("_ScrollDirection", new Vector2(dir.x, dir.y - 0.1f));
-        waterRenderer.material.SetTextureOffset("_FoamTexture", new Vector2(dir.x, (dir.y * curSpeed)));// * Time.realtimeSinceStartup);
+        //waterRenderer.material.SetTextureOffset("_FoamTexture", new Vector2(dir.x, (dir.y * curSpeed)));// * Time.realtimeSinceStartup);
 
         //waterRenderer.material.SetTextureOffset("_FoamTexture", new Vector2(0f, -curSpeed * Time.realtimeSinceStartup));
         //waterRenderer.material.SetTextureOffset("_FoamTexture", dir); //* Time.realtimeSinceStartup);
-        //waterRenderer.material.SetVector("_ScrollDirection", dir);
+        waterRenderer.material.SetVector("_ScrollDirection",new Vector2(dir.x * curSpeed, (dir.y*0.001f) - 0.1f));
         //waterRenderer.material.SetFloat("_SpeedScale", curSpeed + 0.1f);
 
 
