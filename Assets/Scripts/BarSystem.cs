@@ -10,7 +10,7 @@ public class BarSystem : MonoBehaviour
     private int flapEnergy;
     public float GetEnergy => energyMeter.value;
 
-    private float _regenSpeed = 0.7f;
+    private float _regenSpeed = 5f;
 
     [SerializeField] private Slider energyMeter;
     [SerializeField] private Slider hungerMeter;
@@ -79,7 +79,7 @@ public class BarSystem : MonoBehaviour
         float from = oxygenMeter.value;
         float modifier = 1f;
 
-        float inc = 1.2f * Time.deltaTime;
+        float inc = 3f * Time.deltaTime;
 
         oxygenMeter.gameObject.SetActive(true);
         if (loss)
@@ -89,7 +89,7 @@ public class BarSystem : MonoBehaviour
             modifier = -1f;
         }
         // 'diff' can be either 32 or -68
-        float diff = (to - from) * modifier; 
+        float diff = (to - from) * modifier;
 
         // Delta (Change)
         float delta = 0f;
@@ -183,4 +183,14 @@ public class BarSystem : MonoBehaviour
         Debug.Log("Took The Energy!");
         return flap;
     }
+
+    private void OxygenCheck()
+    {
+        if (oxygenMeter.value < 0.01f)
+        {
+
+        }
+    }
+
+
 }

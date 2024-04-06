@@ -7,7 +7,7 @@ public class WorldManager : MonoBehaviour
     private float curSpeed = 0.0f;
     [SerializeField] private MeshRenderer waterRenderer;
     //[SerializeField] private Material waterMaterial;
-    [SerializeField] private PlayerController player;
+    [SerializeField] private BirdStateMachine player;
     private Vector2 dir = Vector2.zero;
 
     public Vector2 GetWorldMovement => dir;
@@ -32,7 +32,7 @@ public class WorldManager : MonoBehaviour
     private void FixedUpdate()
     {
         curSpeed = Mathf.Lerp(curSpeed, player.SpeedMagnitude(), Time.deltaTime); // player.SpeedMagnitude();
-        dir = -player.BirdVector() * curSpeed;
+        dir = Vector2.Lerp(dir, -player.BirdVector() * curSpeed, Time.deltaTime);
         scrollDir += dir;
         //Debug.Log(dir);
     }

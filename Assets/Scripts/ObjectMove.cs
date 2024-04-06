@@ -7,7 +7,7 @@ public class ObjectMove : MonoBehaviour
     // This is set by the WorldManager Script
     public WorldManager worldMan;
     private Rigidbody rb;
-    [SerializeField] float objectSpeed = 1f;
+    [SerializeField] float objectSpeed = 2f;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -18,19 +18,17 @@ public class ObjectMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.AddForce(worldMan.GetWorldMovement.x * objectSpeed,0f, worldMan.GetWorldMovement.y * objectSpeed,ForceMode.VelocityChange);
-        //rb.MovePosition(new Vector3(worldMan.GetWorldMovement.x * objectSpeed, 0f, worldMan.GetWorldMovement.y * objectSpeed) * Time.deltaTime);
+        UpdatePosition();
     }
 
-    private void OnTriggerEnter(Collider other)
+    public virtual void UpdatePosition()
     {
-        if (other.CompareTag("Player"))
-        {
-            BarSystem energy = FindObjectOfType<BarSystem>();
-            energy.HungerRefill();
-            energy.EnergyRefill();
-            Destroy(this.gameObject);
-        }
+        rb.position = new Vector3(worldMan.GetWorldMovement.x, 0f, worldMan.GetWorldMovement.y * 2f) * objectSpeed + rb.position;
+    }
+
+    public virtual void OnTriggerEnter(Collider other)
+    {
+
     }
 
 }

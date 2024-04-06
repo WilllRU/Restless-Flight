@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3011543836837171499}
   - component: {fileID: 3011543836837171497}
   - component: {fileID: 3011543836837171496}
-  - component: {fileID: 3011543836837171503}
+  - component: {fileID: 5946075308149170426}
   m_Layer: 0
   m_Name: FishPrefab
   m_TagString: Untagged
@@ -62,9 +62,9 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 6, y: 6, z: 8}
-  m_Center: {x: 0, y: 0, z: -2}
---- !u!114 &3011543836837171503
+  m_Size: {x: 4, y: 4, z: 6}
+  m_Center: {x: 0, y: 0, z: -1}
+--- !u!114 &5946075308149170426
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -73,11 +73,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3011543836837171502}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edb1f58ecd740d0469294389a5e28339, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c347731f041b8741be7212161aded8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   worldMan: {fileID: 0}
-  objectSpeed: 100
+  objectSpeed: 2
 --- !u!1001 &3011543836039932209
 PrefabInstance:
   m_ObjectHideFlags: 0
