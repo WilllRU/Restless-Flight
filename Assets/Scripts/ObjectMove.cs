@@ -7,7 +7,7 @@ public class ObjectMove : MonoBehaviour
     // This is set by the WorldManager Script
     public WorldManager worldMan;
     private Rigidbody rb;
-    [SerializeField] float objectSpeed = 2f;
+    [SerializeField] float objectSpeed = 180f;
     // Start is called before the first frame update
     private void Awake()
     {

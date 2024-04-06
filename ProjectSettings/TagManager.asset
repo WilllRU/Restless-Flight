@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Trigger
   - SectionTrigger
+  - Objects
   layers:
   - Default
   - TransparentFX

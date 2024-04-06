@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5946075308149170426}
   m_Layer: 0
   m_Name: FishPrefab
-  m_TagString: Untagged
+  m_TagString: Objects
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldMan: {fileID: 0}
-  objectSpeed: 2
+  objectSpeed: 180
 --- !u!1001 &3011543836039932209
 PrefabInstance:
   m_ObjectHideFlags: 0
