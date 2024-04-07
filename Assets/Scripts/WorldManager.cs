@@ -17,7 +17,7 @@ public class WorldManager : MonoBehaviour
     private Vector3 _determinedRockPos = new Vector3(0f, 0f, 590f);
 
     public Vector2 GetWorldMovement => dir;
-    private Vector2 scrollDir = Vector2.zero;
+    [SerializeField] private Vector2 scrollDir = Vector2.zero;
 
     private float _rockDelay = 5f;
     private float _fishDelay = 3f;
@@ -65,6 +65,11 @@ public class WorldManager : MonoBehaviour
         curSpeed = Mathf.Lerp(curSpeed, player.SpeedMagnitude(), Time.deltaTime); // player.SpeedMagnitude();
         dir = Vector2.Lerp(dir, -player.BirdVector() * curSpeed, Time.deltaTime);
         scrollDir += dir;
+        if (scrollDir.sqrMagnitude > 5f)
+        {
+            scrollDir = Vector2.zero;
+        }
+; 
     }
 
     private IEnumerator SpawnObject()
