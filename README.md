@@ -1,3 +1,3 @@
 # Restless Flight
  Submission to the Games Job Fair: Unity Programming Challenge
- [Restless Flight](Images/RestlessFlightCover.PNG)
+ ![Restless Flight](Images/RestlessFlightCover.PNG)
