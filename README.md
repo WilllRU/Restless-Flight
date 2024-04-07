@@ -15,7 +15,7 @@ This submission was made in a matter of 7 days and speaking with hindsight, I wi
 [*You can take a look at the script itself that was managing that process, it might not be beautiful!*](Assets/Scripts/WorldManager.cs).
 
 ### Extra Notes:
-This project doesn't have much to show and can definitely use improvements on the code (*Especially with my GameManager script which only handles the ending of the game and nothing else*), but there were new methods put to use when making a infinite runner that challenged my previous understanding of the genre and gave another angle it's approach. In the end, what I am trying to say is it's good to challenge yourself, because you end up getting more experience or knowledge in the process.
+This project doesn't have much to show and can definitely use improvements on the code (*Especially with my GameManager script which only handles the ending of the game and nothing else*), but there were new methods put to use when making a infinite runner that challenged my previous understanding of the genre and gave another angle to it's approach. In the end, what I am trying to say is it's good to challenge yourself, because you end up getting more experience or knowledge in the process.
 
 Thank you for reading!
 
