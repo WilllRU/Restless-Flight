@@ -36,7 +36,7 @@ public class BirdGlideState : BirdBaseState
             lift = _height * liftScale;
         }
 
-        Debug.Log(lift);
+        //Debug.Log(lift);
 
         bird.GetRigidbody.AddForce(0f,lift,0f);
 

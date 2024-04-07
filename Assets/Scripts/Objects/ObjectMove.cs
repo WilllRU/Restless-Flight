@@ -26,9 +26,4 @@ public class ObjectMove : MonoBehaviour
         rb.position = new Vector3(worldMan.GetWorldMovement.x, 0f, worldMan.GetWorldMovement.y * 2f) * objectSpeed + rb.position;
     }
 
-    public virtual void OnTriggerEnter(Collider other)
-    {
-
-    }
-
 }

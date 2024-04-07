@@ -152,7 +152,7 @@ GameObject:
   - component: {fileID: 7133322703951791739}
   - component: {fileID: 8787590573645659195}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: SeaBed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,8 +166,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272988780568449177}
   m_LocalRotation: {x: -0.061048605, y: 0, z: 0, w: 0.99813485}
-  m_LocalPosition: {x: 0, y: -36, z: -7}
-  m_LocalScale: {x: 100, y: 100, z: 60.2}
+  m_LocalPosition: {x: 0, y: -21, z: 113}
+  m_LocalScale: {x: 35, y: 50, z: 35.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6652290136328555130}
@@ -232,7 +232,7 @@ MeshCollider:
   m_GameObject: {fileID: 1272988780568449177}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
@@ -358,7 +358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f9c6d42cbd3bb4fb74759eb393d702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportToXPos: 140
+  teleportToPos: {fileID: 789203739322948773}
   rb: {fileID: 0}
 --- !u!54 &6813945511792731237
 Rigidbody:
@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91f9c6d42cbd3bb4fb74759eb393d702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teleportToXPos: -140
+  teleportToPos: {fileID: 4440752838768319348}
   rb: {fileID: 0}
 --- !u!54 &978665585975092909
 Rigidbody:
@@ -664,7 +664,7 @@ Transform:
   m_GameObject: {fileID: 6652290136328555131}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6652290137429814468}

@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 24f500aa5306049438c72d8466027d53
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Chatlong
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 32ce58c124970b944bc5aa1854894442, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class TeleportObjects : MonoBehaviour
 {
     // Start is called before the first frame update
-    [SerializeField] private float teleportToXPos;
+    [SerializeField] private Transform teleportToPos;
     [SerializeField] private Rigidbody rb;
     private BoxCollider col;
 
@@ -21,7 +21,7 @@ public class TeleportObjects : MonoBehaviour
         {
             Rigidbody rigid = other.GetComponent<Rigidbody>();
             Vector3 pos = rigid.position;
-            pos.x = teleportToXPos;
+            pos.x = teleportToPos.position.x - 10f;
             rigid.position = pos;
 
         }

@@ -5,20 +5,22 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 
-    private Vector3 _offset;
-    private Vector3 _offsetRotation;
+    [SerializeField] private Vector3 _offset;
+    [SerializeField] private Vector3 _offsetRotation;
     [SerializeField] private Transform target;
     [SerializeField] private float smoothTime;
     private float finalAngle = 0f;
     //private Vector3 _currentVelocity = Vector3.zero;
     private Vector3 _offsetAdd;
 
+    /*
     private void Awake()
     {
         _offset = transform.position - target.position;
         _offsetRotation = transform.rotation.eulerAngles;
 
     }
+    */
 
     private void LateUpdate()
     {

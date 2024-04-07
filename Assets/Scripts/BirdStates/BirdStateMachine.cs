@@ -14,6 +14,9 @@ public class BirdStateMachine : MonoBehaviour
     public BirdDeathState DeathState = new BirdDeathState();
     #endregion
 
+    private bool _isDead = false;
+    public bool DeadBird => _isDead;
+
     [SerializeField] public BarSystem energy;
 
     #region Variables
@@ -41,7 +44,7 @@ public class BirdStateMachine : MonoBehaviour
 
     private float _turnAmount = 40f;
     private float _rollAmount = 45f;
-    private float _turnForce = 0f;
+    //private float _turnForce = 0f;
 
     public float LiftSpeed => _liftSpeed;
     public float HeightGain => _heightGain;
@@ -56,7 +59,10 @@ public class BirdStateMachine : MonoBehaviour
         }
         set
         {
-            value = Mathf.Clamp(value, _minSpeed, _maxSpeed);
+            if (!_isDead)
+            {
+                value = Mathf.Clamp(value, _minSpeed, _maxSpeed);
+            }
             _curSpeed = value;
         }
 
@@ -78,7 +84,7 @@ public class BirdStateMachine : MonoBehaviour
     {
 
         float artificialDrag = _dropOff.Evaluate((_curSpeed - _minSpeed) / _maxSpeed) * 0.2f;
-        Debug.Log(artificialDrag);
+        //Debug.Log(artificialDrag);
         return artificialDrag;
     }
 
@@ -104,10 +110,14 @@ public class BirdStateMachine : MonoBehaviour
 
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         _curSpeed = _minSpeed;
         _rb = GetComponent<Rigidbody>();
+    }
+
+    private void Start()
+    {
         currentState = GlideState;
         currentState.EnterState(this);
     }
@@ -147,6 +157,14 @@ public class BirdStateMachine : MonoBehaviour
         //float yawAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, Mathf.Clamp(playerInput.x * turnAmount, -turnAmount, turnAmount), Time.deltaTime * rotationSpeed);
         float rollAngle = Mathf.LerpAngle(-transform.rotation.eulerAngles.z, Mathf.Clamp(GetInput.x * _rollAmount, -_rollAmount, _rollAmount), Time.deltaTime * _rotationSpeed * 0.5f);
         transform.rotation = Quaternion.Euler(pitchAngle, 0f, -rollAngle);
+    }
+
+
+    public void BirdDead()
+    {
+        _isDead = true;
+        SwitchState(DeathState);
+        FindObjectOfType<GameManager>().EndGame();
     }
 
 }

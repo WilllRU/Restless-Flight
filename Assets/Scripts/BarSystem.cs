@@ -102,7 +102,7 @@ public class BarSystem : MonoBehaviour
         }
 
         oxygenMeter.gameObject.SetActive(false);
-
+        OxygenCheck();
         yield return null;
     }
 
@@ -144,13 +144,13 @@ public class BarSystem : MonoBehaviour
     }
     */
     // Called when triggering fish
-    public void HungerRefill(int refill = 10)
+    public void HungerRefill(int refill = 15)
     {
         hungerMeter.value += refill;
         StartCoroutine(UpdateEnergy());
     }
 
-    public void EnergyRefill(int refill = 5)
+    public void EnergyRefill(int refill = 10)
     {
         energyMeter.value += refill;
     }
@@ -188,7 +188,7 @@ public class BarSystem : MonoBehaviour
     {
         if (oxygenMeter.value < 0.01f)
         {
-
+            FindObjectOfType<BirdStateMachine>().BirdDead();
         }
     }
 
