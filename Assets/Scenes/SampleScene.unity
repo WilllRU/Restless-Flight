@@ -1949,6 +1949,7 @@ MonoBehaviour:
   waterRenderer: {fileID: 1814109586}
   player: {fileID: 99887624}
   world: {fileID: 1538704348}
+  scrollDir: {x: 0, y: 0}
   fish:
   - {fileID: 2641989852068443747, guid: 4815f7e6f18873b4fbce8dff0279962f, type: 3}
   - {fileID: 2641989852068443747, guid: 197bccbdf4d3b814c931a95ae9c5ed7f, type: 3}
@@ -2023,6 +2024,22 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3836915079960628739, guid: bcf6843f1c0973747b21598a52a135a3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836915079960628739, guid: bcf6843f1c0973747b21598a52a135a3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3836915079960628739, guid: bcf6843f1c0973747b21598a52a135a3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283560425944492307, guid: bcf6843f1c0973747b21598a52a135a3, type: 3}
+      propertyPath: _model
+      value: 
+      objectReference: {fileID: 1612482320}
     - target: {fileID: 8283560425944492307, guid: bcf6843f1c0973747b21598a52a135a3, type: 3}
       propertyPath: energy
       value: 
@@ -2368,6 +2385,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1559172307}
   m_CullTransparentMesh: 1
+--- !u!1 &1612482320 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4500403635583505593, guid: bcf6843f1c0973747b21598a52a135a3, type: 3}
+  m_PrefabInstance: {fileID: 1309462235}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1630000566
 GameObject:
   m_ObjectHideFlags: 0
