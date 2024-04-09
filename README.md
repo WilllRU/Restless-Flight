@@ -1,6 +1,7 @@
 # Restless Flight
  Submission to the Games Job Fair: Unity Programming Challenge
  The Prompt Of the Challenge was "Infinite Runner" and this was my submission.
+**If you want to look at the code written down during the challenge time, CHANGE THE BRANCH to "EVENT"**
  
  ![Restless Flight](Images/RestlessFlightCover.PNG)
 
