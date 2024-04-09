@@ -17,13 +17,16 @@ public class BirdStateMachine : MonoBehaviour
     private bool _isDead = false;
     public bool DeadBird => _isDead;
 
-    [SerializeField] public BarSystem energy;
+    public BarSystem energy;
 
     #region Variables
     [SerializeField] private InputAction _controller;
+    [SerializeField] private GameObject _model;
     private Rigidbody _rb;
     private BoxCollider _collider;
+
     public Animator anim;
+    
 
     public Vector2 GetInput => _controller.ReadValue<Vector2>();
     public Rigidbody GetRigidbody => _rb;
@@ -153,10 +156,10 @@ public class BirdStateMachine : MonoBehaviour
 
     private void BirdRotation()
     {
-        float pitchAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.x, Mathf.Clamp(-_rb.velocity.y, -70, 80), Time.deltaTime * _rotationSpeed);
+        float pitchAngle = Mathf.LerpAngle(_model.transform.rotation.eulerAngles.x, Mathf.Clamp(-_rb.velocity.y, -70, 80), Time.deltaTime * _rotationSpeed);
         //float yawAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.y, Mathf.Clamp(playerInput.x * turnAmount, -turnAmount, turnAmount), Time.deltaTime * rotationSpeed);
-        float rollAngle = Mathf.LerpAngle(-transform.rotation.eulerAngles.z, Mathf.Clamp(GetInput.x * _rollAmount, -_rollAmount, _rollAmount), Time.deltaTime * _rotationSpeed * 0.5f);
-        transform.rotation = Quaternion.Euler(pitchAngle, 0f, -rollAngle);
+        float rollAngle = Mathf.LerpAngle(-_model.transform.rotation.eulerAngles.z, Mathf.Clamp(GetInput.x * _rollAmount, -_rollAmount, _rollAmount), Time.deltaTime * _rotationSpeed * 0.5f);
+        _model.transform.rotation = Quaternion.Euler(pitchAngle, 0f, -rollAngle);
     }
 
 
